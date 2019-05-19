@@ -9,34 +9,37 @@ const initialState = [];
 const CartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      const indexCartItem = state.findIndex(
+      const index2 = state.findIndex(
         item => item.id === action.payload.item.id
       );
-      if (indexCartItem !== -1) {
-        state[indexCartItem].quantity += action.payload.quantity;
+      if (index2 !== -1) {
+        state[index2].quantity += action.payload.quantity;
         console.log(action.payload.quantity);
-      } else {
+      }
+      // push vào mảng thì gửi kèm quantity {có item và quantity = 1}
+      else {
         let item = { ...action.payload.item, quantity: 1 };
         state.push(item);
-
         console.log(state);
       }
 
       return [...state];
 
     case DELETE_CART_ITEM:
-      const index = state.findIndex(cartItem => cartItem.id === action.id);
+      const index = state.findIndex(
+        cartItem => cartItem.id === action.payload.id
+      );
       state.splice(index, 1);
       return [...state];
 
     case UPDATE_QUANTITY:
-      console.log(state, action);
+      // tìm vị trí item cần tăng/giảm trong mảng và dựa vào flag để xem muốn tăng hay giảm
       let stateUpdate = [...state];
       const index1 = stateUpdate.findIndex(
-        item => item.id === action.product.id
+        item => item.id === action.payload.item.id
       );
       if (index1 !== -1) {
-        if (action.flag) {
+        if (action.payload.flag) {
           stateUpdate[index1].quantity += 1;
         } else {
           if (stateUpdate[index1].quantity > 1) {
@@ -44,8 +47,8 @@ const CartReducer = (state = initialState, action) => {
           }
         }
       }
-      state = stateUpdate;
-      return [...state];
+
+      return stateUpdate;
     default:
       return [...state];
   }

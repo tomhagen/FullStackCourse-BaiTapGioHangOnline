@@ -14,13 +14,16 @@ export const actAddToCart = (item,quantity) => {
 export const actDeleteCartItem = (id) => {
     return {
         type: DELETE_CART_ITEM,
-        id
+        payload: id
     }
 }
 
-export const actUpdateQuantity = (product,flag) => {
+export const actUpdateQuantity = (item,flag) => {
     return {
         type: UPDATE_QUANTITY,
-        product,flag
+        payload:{
+            item,
+            flag
+        }
     }
 }
